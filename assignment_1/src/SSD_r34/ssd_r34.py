@@ -35,8 +35,10 @@ class Encoder(object):
     def decode_batch(self, bboxes_in, scores_in,  criteria = 0.45, max_output=200):
         self.dboxes = self.dboxes.to(bboxes_in)
         self.dboxes_xywh = self.dboxes_xywh.to(bboxes_in)
+        print(bboxes_in.size(), scores_in.size())
         bboxes, probs = scale_back_batch(bboxes_in, scores_in,self.scale_xy,self.scale_wh,self.dboxes_xywh)
         boxes = []; labels=[]; scores=[]
+
         for bbox, prob in zip(bboxes.split(1, 0), probs.split(1, 0)):
             bbox = bbox.squeeze(0)
             prob = prob.squeeze(0)
@@ -56,13 +58,15 @@ class Encoder(object):
         labels_out = []
 
         for i, score in enumerate(scores_in.split(1, 1)):
+            # print(score)
             # skip background
             if i == 0: continue
 
             score = score.squeeze(1)
+            print(score)
             mask = score > 0.05
-
             bboxes, score = bboxes_in[mask, :], score[mask]
+            print(bboxes)
             if score.size(0) == 0: continue
 
             score_sorted, score_idx_sorted = score.sort(dim=0)
@@ -83,6 +87,7 @@ class Encoder(object):
             bboxes_out.append(bboxes[candidates, :])
             scores_out.append(score[candidates])
             labels_out.extend([i]*len(candidates))
+
 
         bboxes_out, labels_out, scores_out = torch.cat(bboxes_out, dim=0), \
                torch.tensor(labels_out, dtype=torch.long), \
