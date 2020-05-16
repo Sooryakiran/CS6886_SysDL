@@ -1,0 +1,15 @@
+artifact_uri: file:///content/drive/My Drive/SysDL/Assg 3/mlruns/0/ceabca8c959a47f69256c787c21d6cdc/artifacts
+end_time: 1588430924388
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: ceabca8c959a47f69256c787c21d6cdc
+run_uuid: ceabca8c959a47f69256c787c21d6cdc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1588430924233
+status: 3
+tags: []
+user_id: root
